@@ -1,0 +1,32 @@
+{
+  "name": "movie-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "- register POST, \r  - login POST,\r  - movie POST,\r  - preferences POST,\r  - movie list GET,\r  - movie by genre GET",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon --experimental-modules --es-module-specifier-resolution=node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toma-andrei/movie-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toma-andrei/movie-backend/issues"
+  },
+  "homepage": "https://github.com/toma-andrei/movie-backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
