@@ -13,6 +13,7 @@ export const createTables = () => {
   createMovies();
   createGenres();
   createActors();
+  createActorsList();
   createProducers();
 };
 
@@ -48,7 +49,9 @@ const createMovies = () => {
   const sql = `CREATE TABLE IF NOT EXISTS movies (
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         name VARCHAR(255) NOT NULL,
-                        plot TEXT NOT NULL)`;
+                        plot TEXT NOT NULL,
+                        release_date VARCHAR(255) NOT NULL,
+                        director VARCHAR(255))`;
   connection.query(sql, (error, result) => {
     if (error) throw error;
 
@@ -58,9 +61,9 @@ const createMovies = () => {
 
 const createGenres = () => {
   const sql = `CREATE TABLE IF NOT EXISTS genres (
-                        movie_id INT NOT NULL,
-                        genre VARCHAR(255),
-                        FOREIGN KEY (movie_id) REFERENCES movies(id))`;
+                          movie_id INT NOT NULL,
+                          genre VARCHAR(255),
+                          FOREIGN KEY (movie_id) REFERENCES movies(id))`;
 
   connection.query(sql, (error, result) => {
     if (error) throw error;
@@ -71,10 +74,23 @@ const createGenres = () => {
 
 const createActors = () => {
   const sql = `CREATE TABLE IF NOT EXISTS actors (
-                        movie_id INT NOT NULL,
-                        actor VARCHAR(255),
-                        FOREIGN KEY (movie_id) REFERENCES movies(id))`;
+    movie_id INT NOT NULL,
+    actor VARCHAR(255),
+    FOREIGN KEY (movie_id) REFERENCES movies(id))`;
 
+  connection.query(sql, (error, result) => {
+    if (error) throw error;
+
+    console.log(result);
+  });
+};
+
+const createActorsList = () => {
+  const sql = `CREATE TABLE IF NOT EXISTS actor_list (
+                     actor_id INT AUTO_INCREMENT PRIMARY KEY, 
+                        name VARCHAR(255) NOT NULL, 
+                        birth_date VARCHAR(255) NOT NULL,
+                        description TEXT NOT NULL)`;
   connection.query(sql, (error, result) => {
     if (error) throw error;
 
