@@ -1,12 +1,6 @@
 import connection from "./connection";
 /**
-    Users(id PK, username UNIQUE, password)
-	Preferences(id FK, pref_genres, pref_movies, pref_actors)
-	Movies(id PK, name, plot)
-	Genres(movie_id FK, genre)
-	Actors(movie_id FK, actor)
-	Producers(movie_id FK, producer)
-    */
+ */
 export const createTables = () => {
   createUsers();
   createPreferences();
@@ -33,10 +27,12 @@ const createUsers = () => {
 
 const createPreferences = () => {
   const sql = `CREATE TABLE IF NOT EXISTS preferences (
-                        id INT NOT NULL, pref_genres VARCHAR(255), 
-                        pref_movies VARCHAR(255), 
-                        pref_actors VARCHAR(255), 
-                        FOREIGN KEY (id) REFERENCES users(id))`;
+                        id INT AUTO_INCREMENT PRIMARY KEY, 
+                        user_id INT NOT NULL,
+                        type VARCHAR(255) NOT NULL,
+                        element_id INT NOT NULL,
+                        UNIQUE (user_id, type, element_id),
+                        FOREIGN KEY (user_id) REFERENCES users(id))`;
 
   connection.query(sql, (error, result) => {
     if (error) throw error;

@@ -136,3 +136,86 @@ export const getAllActors = (responseToClient) => {
     responseToClient.json(result);
   });
 };
+
+export const getMoviesByActor = (responseToClient, actor) => {
+  console.log(actor);
+  const movieByActor = `SELECT distinct
+  m.name from actor_list al 
+  JOIN actors a on al.name = a.actor 
+  JOIN movies m on m.id = a.movie_id where al.name like '${actor}%' order by al.name;`;
+
+  connection.query(movieByActor, (error, result) => {
+    if (error) {
+      console.log(error);
+      responseToClient.json(beautifyError(error));
+      return;
+    }
+    console.log(result);
+    responseToClient.json(result);
+  });
+};
+
+export const getMoviesByGenre = (responseToClient, genre) => {
+  const sql = `SELECT * FROM movies m JOIN genres g on m.id = g.movie_id where genre = '${genre}'`;
+  connection.query(sql, (error, result) => {
+    if (error) {
+      responseToClient.json(beautifyError(error));
+      return;
+    }
+    responseToClient.json(result);
+  });
+};
+
+export const addPreferateMovie = (userId, responseToClient) => {
+  const sql =
+    "INSERT INTO preferences (user_id, type, element_id) VALUES (?, ?, ?)";
+  const values = [userId, "movie", movie];
+
+  connection.query(sql, values, (error, result) => {
+    if (error) {
+      console.log(error.code);
+      responseToClient.json(beautifyError(error));
+      return;
+    }
+    responseToClient.json({ message: "success" });
+  });
+};
+
+export const addPreferateActor = (actor, userId, responseToClient) => {
+  const sql =
+    "INSERT INTO preferences (user_id, type, element_id) VALUES (?, ?, ?)";
+  const values = [userId, "actor", movie];
+
+  connection.query(sql, values, (error, result) => {
+    if (error) {
+      console.log(error.code);
+      responseToClient.json(beautifyError(error));
+      return;
+    }
+    responseToClient.json({ message: "success" });
+  });
+};
+
+export const getPreferateMovies = (userId, responseToClient) => {
+  const sql = `SELECT * FROM preferences WHERE user_id = ? AND type = 'movie'`;
+  const values = [userId];
+  connection.query(sql, values, (error, result) => {
+    if (error) {
+      responseToClient.json(beautifyError(error));
+      return;
+    }
+    responseToClient.json(result);
+  });
+};
+
+export const getPreferateActors = (userId, responseToClient) => {
+  const sql = `SELECT * FROM preferences WHERE user_id = ? AND type = 'actor'`;
+  const values = [userId];
+  connection.query(sql, values, (error, result) => {
+    if (error) {
+      responseToClient.json(beautifyError(error));
+      return;
+    }
+    responseToClient.json(result);
+  });
+};

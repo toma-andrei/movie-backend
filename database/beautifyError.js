@@ -4,6 +4,7 @@ const beautifyError = (error) => {
       return { message: "Email already exists" };
     else if (error.sqlMessage.includes("username"))
       return { message: "Username already exists" };
+    else return { message: "duplicate" };
   }
   return { message: "error code: " + error.code };
 };
