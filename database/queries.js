@@ -17,7 +17,27 @@ export const createUser = (email, username, password, responseToClient) => {
       responseToClient.json(beautifyError(error));
       return;
     }
-    responseToClient.json(response);
+    const userId = result.insertId;
+
+    const sql2 = `SELECT * FROM users WHERE id = ?`;
+    const values2 = [userId];
+
+    connection.query(sql2, values2, (error, result) => {
+      if (error) {
+        response.message = beautifyError(error);
+        responseToClient.json(beautifyError(error));
+        return;
+      }
+      console.log(result);
+      responseToClient.json({
+        message: "success",
+        data: {
+          username: result[0].username,
+          id: result[0].id,
+          email: result[0].email,
+        },
+      });
+    });
   });
 };
 
