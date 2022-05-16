@@ -11,6 +11,7 @@ import {
   addPreferateMovie,
   getPreferateMovies,
   getPreferateActors,
+  removePreferateMovie,
 } from "./database/queries";
 import { populateTables } from "./database/populateTables";
 
@@ -38,10 +39,16 @@ app.post("/preferences", (req, res) => {
   const { type, userId, id } = req.body;
 
   if (type === "movie") {
-    addPreferateMovie(id, userId, res);
+    addPreferateMovie(userId, id, res);
   } else {
-    addPreferateActor(id, userId, res);
+    addPreferateActor(userId, id, res);
   }
+});
+
+app.post("/pref/remove", (req, res) => {
+  const { type, userId, id } = req.body;
+
+  removePreferateMovie(userId, id, type, res);
 });
 
 app.get("/movies", (req, res) => {

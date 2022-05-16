@@ -166,10 +166,10 @@ export const getMoviesByGenre = (responseToClient, genre) => {
   });
 };
 
-export const addPreferateMovie = (userId, responseToClient) => {
+export const addPreferateMovie = (userId, movieId, responseToClient) => {
   const sql =
     "INSERT INTO preferences (user_id, type, element_id) VALUES (?, ?, ?)";
-  const values = [userId, "movie", movie];
+  const values = [userId, "movie", movieId];
 
   connection.query(sql, values, (error, result) => {
     if (error) {
@@ -181,10 +181,10 @@ export const addPreferateMovie = (userId, responseToClient) => {
   });
 };
 
-export const addPreferateActor = (actor, userId, responseToClient) => {
+export const addPreferateActor = (userId, actorId, responseToClient) => {
   const sql =
     "INSERT INTO preferences (user_id, type, element_id) VALUES (?, ?, ?)";
-  const values = [userId, "actor", movie];
+  const values = [userId, "actor", actorId];
 
   connection.query(sql, values, (error, result) => {
     if (error) {
@@ -217,5 +217,19 @@ export const getPreferateActors = (userId, responseToClient) => {
       return;
     }
     responseToClient.json(result);
+  });
+};
+
+export const removePreferateMovie = (userId, id, type, responseToClient) => {
+  const sql = `DELETE FROM preferences WHERE user_id = ? AND element_id = ? AND type = ?`;
+  console.log(userId, id, type);
+  const values = [userId, id, type];
+  connection.query(sql, values, (error, result) => {
+    if (error) {
+      responseToClient.json(beautifyError(error));
+      return;
+    }
+    console.log(result);
+    responseToClient.json({ message: "success" });
   });
 };
